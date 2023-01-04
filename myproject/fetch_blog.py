@@ -21,7 +21,7 @@ class BlogData:
     25000회가 초과되면 더 이상 호출할 수 가 없습니다.
 
     Returns:
-        _type_: _description_
+        _type_: BlogData
     """
     CLIENT_ID = "2AJi5H0MWsa5Ng1wU9vM"
     CLIENT_SECRET = "RBwpJGfIPq"
