@@ -7,6 +7,22 @@ import unicodedata
 
 
 class BlogData:
+    """사용 방법:
+    BlogData 객체 생성,
+    get() 혹은 get_item() 메소드를 통하여 데이터 반환
+    
+    <예시 코드>
+    b = BlogData("맛집", 3)  # "맛집"을 검색하여 검색 결과 3개만 가져옴
+    print(b.get())  # 검색 결과 전체 출력
+    print(b.get_item(0))  # 검색 결과 중 첫(0)번째 게시물 데이터 출력
+    
+    !!주의사항!!
+    비로그인 API는 일일할당량이 25000회 이므로, loop을 통하여 API를 호출하시면 안됩니다.
+    25000회가 초과되면 더 이상 호출할 수 가 없습니다.
+
+    Returns:
+        _type_: _description_
+    """
     CLIENT_ID = "2AJi5H0MWsa5Ng1wU9vM"
     CLIENT_SECRET = "RBwpJGfIPq"
 
@@ -21,6 +37,10 @@ class BlogData:
         self.response: dict = {"data": None}
         self.query = query
         self.limit = limit
+        if (limit < 1 or limit > 100):
+            self.response['status_code'] = 4
+            self.response['status_msg'] = "Invalid limit parameter"
+            return
         self.sort = sort
         if (sort not in ("s", "d")):
             self.response['status_code'] = 3
