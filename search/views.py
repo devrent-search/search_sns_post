@@ -1,10 +1,13 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 # Create your views here.
 
-def index():
-    pass  # TODO: 01/06 백엔드
+def index(request):
+    return HttpResponse('인덱스페이지.')
 
 
-def search():
-    pass  # TODO: 01/06 백엔드
+def search(request):
+    return HttpResponse('서치페이지.')
+
+
