@@ -10,12 +10,12 @@ class BlogData:
     """사용 방법:
     BlogData 객체 생성,
     get() 혹은 get_item() 메소드를 통하여 데이터 반환
-    
+
     <예시 코드>
     b = BlogData("맛집", 3)  # "맛집"을 검색하여 검색 결과 3개만 가져옴
     print(b.get())  # 검색 결과 전체 출력
     print(b.get_item(0))  # 검색 결과 중 첫(0)번째 게시물 데이터 출력
-    
+
     !!주의사항!!
     비로그인 API는 일일할당량이 25000회 이므로, loop을 통하여 API를 호출하시면 안됩니다.
     25000회가 초과되면 더 이상 호출할 수 가 없습니다.
@@ -66,7 +66,8 @@ class BlogData:
                 self.response['status_code'] = 0
                 self.response['status_msg'] = "Success"
                 self.response['data'] = json.loads(
-                    unicodedata.normalize("NFKC", response.read().decode("utf-8")))
+                    unicodedata.normalize("NFKC", response.read().decode("utf-8"))
+                )
                 return
         except urllib.error.URLError as err:
             self.response['status_code'] = 2
@@ -87,19 +88,19 @@ class BlogData:
 
     def get_item(self, item_no: int) -> Union[dict, None]:
         """검색된 게시물 중 (item_no) 번째 게시물 정보를 반환
-        
+
         만약 IndexError 혹은 Data가 없을 경우 None 반환
-        
+
         Args:
             item_no (int): 검색결과 중 선택할 게시물의 index
 
         Returns:
             dict: 게시물 정보
         """
-        if (not self.response['data']):
+        try:
+            if (not self.response['data']):
+                return
+            else:
+                return self.response['data']['items'][item_no]
+        except IndexError:
             return
-        elif (len(self.response['data']['items'] <= item_no)):
-            return
-        else:
-            return self.response['data']['items'][item_no]
-
