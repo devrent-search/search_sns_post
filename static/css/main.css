@@ -1,0 +1,28 @@
+a {
+  text-decoration-line: none;}
+
+a:link {
+    text-decoration: none;
+    color: gray;
+}
+
+a:visited {
+    text-decoration: none;
+    color: gray;
+}
+
+a:hover {
+    text-decoration: none;
+    color: black;
+}
+
+a:active {
+    text-decoration: none;
+    color: black;
+}
+
+input{
+    outline: 2px solid #28a745;
+    border: 2px solid #28a745;
+    border-radius: 5px;
+}
