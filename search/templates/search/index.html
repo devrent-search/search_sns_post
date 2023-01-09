@@ -1,0 +1,38 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'search/style.css' %}">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div class="" style="text-align:center">
+        <input type="text" class="container-lg border" placeholder="검색어" style="width:700px; height:50px;"></div>
+
+    <div class="" style="text-align:center;">
+            <div role="tablist" class="option">
+                <strong class="tit">기간</strong>
+                <a role="tab" class="txt" aria-selected="true" href="">전체</a>
+                <a role="tab" class="txt" aria-selected="false" href="">1시간</a>
+                <a role="tab" class="txt" aria-selected="false" href="">1일</a>
+                <a role="tab" class="txt" aria-selected="false" href="">1주</a>
+                <a role="tab" class="txt" aria-selected="false" href="">1개월</a>
+                <a role="tab" class="txt" aria-selected="false" href="">3개월</a>
+                <a role="tab" class="txt" aria-selected="false" href="">6개월</a>
+                <a role="tab" class="txt" aria-selected="false" href="">1년</a>
+                <a href="#" role="tab" class="txt txt_option _calendar_select_trigger" data-select-trigger="" aria-selected="false">직접입력</a></div>
+    </div>
+
+    <div class="p-3 border bg-light" style="height:50px; text-align:center;">
+        <input type="text" class="container-sm" placeholder="포함 단어" style="width:400px; height:35px;"></div>
+    <div class="p-3 border bg-light" style=" height:50px; text-align:center;">
+        <input type="text" class="container-sm" placeholder="제외 단어" style="width:400px; height:35px;"></div>
+    <div class="p-3 border bg-light" style=" height:50px; text-align:center;">
+        <input type="text" class="container-sm" placeholder="작성자" style="width:400px; height:35px;"></div>
+    <a href="#" role="tab" class="txt">도움말</a>
+
+
+</body>
+</html>
