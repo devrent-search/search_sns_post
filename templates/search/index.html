@@ -1,27 +1,110 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="" style="text-align:center">
-  <input type="text" class="container-lg border" placeholder="검색어" style="width:700px; height:50px;"></div>
+<div>
+    <div class="row mt-5 mx-3" style="text-align:center;">
+      <input type="text" class="container" placeholder="검색어" style="width:700px; height:50px;"></div>
 
-<div class="" style="text-align:center;">
-      <div role="tablist" class="option">
-          <strong class="tit">기간</strong>
-          <a role="tab" class="txt" aria-selected="true" href="">전체</a>
-          <a role="tab" class="txt" aria-selected="false" href="">1시간</a>
-          <a role="tab" class="txt" aria-selected="false" href="">1일</a>
-          <a role="tab" class="txt" aria-selected="false" href="">1주</a>
-          <a role="tab" class="txt" aria-selected="false" href="">1개월</a>
-          <a role="tab" class="txt" aria-selected="false" href="">3개월</a>
-          <a role="tab" class="txt" aria-selected="false" href="">6개월</a>
-          <a role="tab" class="txt" aria-selected="false" href="">1년</a>
-          <a href="#" role="tab" class="txt txt_option _calendar_select_trigger" data-select-trigger="" aria-selected="false">직접입력</a></div>
+    <div role="tablist" class="option container row mt-3" style="margin:0 auto;">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6" style="font-size: 15px">
+            <strong class="tit col" style="font-size: 16px; white-space: nowrap; padding-right: 7px;">기간</strong>
+            <a role="tab" class="txt col" aria-selected="true" style="padding: 5px" href="">⦁ 전체</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 1시간</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 1일</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 1주</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 1개월</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 3개월</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 6개월</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 1년</a>
+
+            <button type="button" class="modal-btn col" style="padding: 5px" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever="@mdo">⦁ 직접 입력</button>
+
+            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" style="display: none;" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <script>
+                                $(document).ready(function () {
+                                $.datepicker.regional['ko'] = {
+                                    prevText: '이전달',
+                                    nextText: '다음달',
+                                    monthNames: ['1월(JAN)','2월(FEB)','3월(MAR)','4월(APR)','5월(MAY)','6월(JUN)',
+                                    '7월(JUL)','8월(AUG)','9월(SEP)','10월(OCT)','11월(NOV)','12월(DEC)'],
+                                    monthNamesShort: ['1월','2월','3월','4월','5월','6월',
+                                    '7월','8월','9월','10월','11월','12월'],
+                                    dayNames: ['일','월','화','수','목','금','토'],
+                                    dayNamesShort: ['일','월','화','수','목','금','토'],
+                                    dayNamesMin: ['일','월','화','수','목','금','토'],
+                                    weekHeader: 'Wk',
+                                    dateFormat: 'yy-mm-dd',
+                                    firstDay: 0,
+                                    isRTL: false,
+                                    showMonthAfterYear: true,
+                                    yearSuffix: '',
+                                    showOn: 'focus',
+                                    changeMonth: true,
+                                    changeYear: true,
+                                    showButtonPanel: false,
+                                    yearRange: 'c-99:c+99',
+                                };
+                                $.datepicker.setDefaults($.datepicker.regional['ko']);
+
+                                $('#datepicker1').datepicker();
+                                $('#datepicker1').datepicker("option", "maxDate", $("#datepicker2").val());
+                                $('#datepicker1').datepicker("option", "onClose", function ( selectedDate ) {
+                                    $("#datepicker2").datepicker( "option", "minDate", selectedDate );
+                                });
+
+                                $('#datepicker2').datepicker();
+                                $('#datepicker2').datepicker("option", "minDate", $("#datepicker1").val());
+                                $('#datepicker2').datepicker("option", "onClose", function ( selectedDate ) {
+                                    $("#datepicker1").datepicker( "option", "maxDate", selectedDate );
+                                });
+                            });
+                            </script>
+                            <script>
+                                $(function() {
+                                    $("#datepicker1, #datepicker2").datepicker({
+                                        dateFormat: 'yy.mm.dd'
+                                    });
+                                });
+                            </script>
+                            <p style="text-align: center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"></path>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"></path></svg>
+                                <input type="text" id="datepicker1" placeholder=" 시작 날짜" class="hasDatepicker"> ~
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"></path>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"></path></svg>
+                                <input type="text" id="datepicker2" placeholder=" 종료 날짜" class="hasDatepicker">
+                            </p>
+                        </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn" style="color: white; background-color: #2db400">적용</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-5" style="text-align:center;">
+            <div class="border bg-light">
+              <input type="text" class="container border" placeholder="포함 단어" style="width:400px; height:35px;"></div>
+            <div class=" border bg-light">
+              <input type="text" class="container border" placeholder="제외 단어" style="width:400px; height:35px;"></div>
+            <div class=" border bg-light">
+              <input type="text" class="container border" placeholder="작성자" style="width:400px; height:35px;"></div>
+            <div class="search-btn border bg-light">
+                <a href="#" class="myButton" style="color: white; text-align: center">검색</a>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div class="p-3 border bg-light" style="height:50px; text-align:center;">
-  <input type="text" class="container-sm" placeholder="포함 단어" style="width:400px; height:35px;"></div>
-<div class="p-3 border bg-light" style=" height:50px; text-align:center;">
-  <input type="text" class="container-sm" placeholder="제외 단어" style="width:400px; height:35px;"></div>
-<div class="p-3 border bg-light" style=" height:50px; text-align:center;">
-  <input type="text" class="container-sm" placeholder="작성자" style="width:400px; height:35px;"></div>
-<a href="#" role="tab" class="txt">도움말</a>
+    <div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="position: fixed; top: 324.55px; left: 579.862px; z-index: 1056; display: none;"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a class="ui-datepicker-prev ui-corner-all ui-state-disabled" title="이전달"><span class="ui-icon ui-icon-circle-triangle-w">이전달</span></a><a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="다음달"><span class="ui-icon ui-icon-circle-triangle-e">다음달</span></a><div class="ui-datepicker-title"><select class="ui-datepicker-year" data-handler="selectYear" data-event="change"><option value="2023" selected="selected">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option><option value="2035">2035</option><option value="2036">2036</option><option value="2037">2037</option><option value="2038">2038</option><option value="2039">2039</option><option value="2040">2040</option><option value="2041">2041</option><option value="2042">2042</option><option value="2043">2043</option><option value="2044">2044</option><option value="2045">2045</option><option value="2046">2046</option><option value="2047">2047</option><option value="2048">2048</option><option value="2049">2049</option><option value="2050">2050</option><option value="2051">2051</option><option value="2052">2052</option><option value="2053">2053</option><option value="2054">2054</option><option value="2055">2055</option><option value="2056">2056</option><option value="2057">2057</option><option value="2058">2058</option><option value="2059">2059</option><option value="2060">2060</option><option value="2061">2061</option><option value="2062">2062</option><option value="2063">2063</option><option value="2064">2064</option><option value="2065">2065</option><option value="2066">2066</option><option value="2067">2067</option><option value="2068">2068</option><option value="2069">2069</option><option value="2070">2070</option><option value="2071">2071</option><option value="2072">2072</option><option value="2073">2073</option><option value="2074">2074</option><option value="2075">2075</option><option value="2076">2076</option><option value="2077">2077</option><option value="2078">2078</option><option value="2079">2079</option><option value="2080">2080</option><option value="2081">2081</option><option value="2082">2082</option><option value="2083">2083</option><option value="2084">2084</option><option value="2085">2085</option><option value="2086">2086</option><option value="2087">2087</option><option value="2088">2088</option><option value="2089">2089</option><option value="2090">2090</option><option value="2091">2091</option><option value="2092">2092</option><option value="2093">2093</option><option value="2094">2094</option><option value="2095">2095</option><option value="2096">2096</option><option value="2097">2097</option><option value="2098">2098</option><option value="2099">2099</option><option value="2100">2100</option><option value="2101">2101</option><option value="2102">2102</option><option value="2103">2103</option><option value="2104">2104</option><option value="2105">2105</option><option value="2106">2106</option><option value="2107">2107</option><option value="2108">2108</option><option value="2109">2109</option><option value="2110">2110</option><option value="2111">2111</option><option value="2112">2112</option><option value="2113">2113</option><option value="2114">2114</option><option value="2115">2115</option><option value="2116">2116</option><option value="2117">2117</option><option value="2118">2118</option><option value="2119">2119</option><option value="2120">2120</option><option value="2121">2121</option><option value="2122">2122</option></select><select class="ui-datepicker-month" data-handler="selectMonth" data-event="change"><option value="0" selected="selected">1월</option><option value="1">2월</option><option value="2">3월</option><option value="3">4월</option><option value="4">5월</option><option value="5">6월</option><option value="6">7월</option><option value="7">8월</option><option value="8">9월</option><option value="9">10월</option><option value="10">11월</option><option value="11">12월</option></select></div></div><table class="ui-datepicker-calendar"><thead><tr><th scope="col" class="ui-datepicker-week-end"><span title="일">일</span></th><th scope="col"><span title="월">월</span></th><th scope="col"><span title="화">화</span></th><th scope="col"><span title="수">수</span></th><th scope="col"><span title="목">목</span></th><th scope="col"><span title="금">금</span></th><th scope="col" class="ui-datepicker-week-end"><span title="토">토</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">1</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">2</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">3</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">4</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">5</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">6</span></td><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">7</span></td></tr><tr><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">8</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">9</span></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">10</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">11</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">12</a></td><td class=" ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today" data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="#">13</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">14</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">15</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">16</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">17</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">18</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">19</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">20</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">21</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">22</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">23</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">24</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">25</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">26</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">27</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">28</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">29</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">30</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="0" data-year="2023"><a class="ui-state-default" href="#">31</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table></div>
 {% endblock %}
