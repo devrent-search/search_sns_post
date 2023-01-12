@@ -2,8 +2,12 @@ from django.shortcuts import render
 
 # Create your views here.
 
-def index(request):
-    return render(request, 'search/index.html')  # TODO: 01/06 백엔드
 
-def search():
-    pass  # TODO: 01/06 백엔드
+def index(request):
+    # 여기다가 코드 입력하시면 됩니다.
+    return render(request, 'search/index.html')
+
+
+def search(request):
+    # 여기다가 코드 입력하시면 됩니다.
+    return render(request, 'search/search.html')
