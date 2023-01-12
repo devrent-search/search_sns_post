@@ -1,0 +1,26 @@
+.ta-center {
+    text-align: center;
+}
+
+span.top, span.top > input, .main-title {
+    width: 100px;
+    height: 30px;
+    position: relative;
+    top: -6;
+}
+
+.topbar {
+    height: 30px;
+}
+
+.horizon {
+    height: 20px;
+    background-color: #28a745;
+}
+
+.main-title {
+    font-size: 30px;
+    font-weight: bolder;
+    color: #28a745;
+    top: -14!important;
+}

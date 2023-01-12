@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+{% block content %}
+<div class="horizon"></div>
+<div class="topbar">
+    <span class="p-3 main-title">BLOGNAVI</span>
+    <span class="p-3 ta-center top">
+        <input type="text" class="container-lg border" placeholder="검색어">
+    </span>
+
+    <span class="p-3 ta-center top">
+        <input type="text" class="container-lg border" placeholder="포함 단어">
+    </span>
+    <span class="p-3 ta-center top">
+        <input type="text" class="container-lg border" placeholder="제외 단어">
+    </span>
+    <span class="p-3 ta-center top">
+        <input type="text" class="container-lg border" placeholder="작성자">
+    </span>
+</div>
+<div class="horizon" style="height:5px;"></div>
+{% endblock %}
