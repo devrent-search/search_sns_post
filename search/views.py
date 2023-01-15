@@ -3,6 +3,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 
+<<<<<<< HEAD
 def index(request):
     context = {
         'd': None,
@@ -16,3 +17,14 @@ def search(request):
         'debug': True,
     }
     return render(request, 'search/sample.html', context)
+=======
+
+def index(request):
+    # 여기다가 코드 입력하시면 됩니다.
+    return render(request, 'search/index.html')
+
+
+def search(request):
+    # 여기다가 코드 입력하시면 됩니다.
+    return render(request, 'search/search.html')
+>>>>>>> oshmos
