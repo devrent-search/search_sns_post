@@ -1,27 +1,109 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="" style="text-align:center">
-  <input type="text" class="container-lg border" placeholder="검색어" style="width:700px; height:50px;"></div>
+<div>
+    <div class="row mt-5 mx-3" style="text-align:center;">
+      <input type="text" class="container" placeholder="검색어" style="width:700px; height:50px;"></div>
 
-<div class="" style="text-align:center;">
-      <div role="tablist" class="option">
-          <strong class="tit">기간</strong>
-          <a role="tab" class="txt" aria-selected="true" href="">전체</a>
-          <a role="tab" class="txt" aria-selected="false" href="">1시간</a>
-          <a role="tab" class="txt" aria-selected="false" href="">1일</a>
-          <a role="tab" class="txt" aria-selected="false" href="">1주</a>
-          <a role="tab" class="txt" aria-selected="false" href="">1개월</a>
-          <a role="tab" class="txt" aria-selected="false" href="">3개월</a>
-          <a role="tab" class="txt" aria-selected="false" href="">6개월</a>
-          <a role="tab" class="txt" aria-selected="false" href="">1년</a>
-          <a href="#" role="tab" class="txt txt_option _calendar_select_trigger" data-select-trigger="" aria-selected="false">직접입력</a></div>
+    <div role="tablist" class="option container row mt-3" style="margin:0 auto;">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6" style="font-size: 15px">
+            <strong class="tit col" style="font-size: 16px; white-space: nowrap; padding-right: 7px;">기간</strong>
+            <a role="tab" class="txt col" aria-selected="true" style="padding: 5px" href="">⦁ 전체</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 1시간</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 1일</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 1주</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 1개월</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 3개월</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 6개월</a>
+            <a role="tab" class="txt col" aria-selected="false" style="padding: 5px" href="">⦁ 1년</a>
+
+            <button type="button" class="modal-btn col" style="padding: 5px" data-bs-toggle="modal" data-bs-target="#modal" data-bs-whatever="@mdo">⦁ 직접 입력</button>
+
+            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" style="display: none;" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <script>
+                                $(document).ready(function () {
+                                $.datepicker.regional['ko'] = {
+                                    prevText: '이전달',
+                                    nextText: '다음달',
+                                    monthNames: ['1월(JAN)','2월(FEB)','3월(MAR)','4월(APR)','5월(MAY)','6월(JUN)',
+                                    '7월(JUL)','8월(AUG)','9월(SEP)','10월(OCT)','11월(NOV)','12월(DEC)'],
+                                    monthNamesShort: ['1월','2월','3월','4월','5월','6월',
+                                    '7월','8월','9월','10월','11월','12월'],
+                                    dayNames: ['일','월','화','수','목','금','토'],
+                                    dayNamesShort: ['일','월','화','수','목','금','토'],
+                                    dayNamesMin: ['일','월','화','수','목','금','토'],
+                                    weekHeader: 'Wk',
+                                    dateFormat: 'yy-mm-dd',
+                                    firstDay: 0,
+                                    isRTL: false,
+                                    showMonthAfterYear: true,
+                                    yearSuffix: '',
+                                    showOn: 'focus',
+                                    changeMonth: true,
+                                    changeYear: true,
+                                    showButtonPanel: false,
+                                    yearRange: 'c-99:c+99',
+                                };
+                                $.datepicker.setDefaults($.datepicker.regional['ko']);
+
+                                $('#datepicker1').datepicker();
+                                $('#datepicker1').datepicker("option", "maxDate", $("#datepicker2").val());
+                                $('#datepicker1').datepicker("option", "onClose", function ( selectedDate ) {
+                                    $("#datepicker2").datepicker( "option", "minDate", selectedDate );
+                                });
+
+                                $('#datepicker2').datepicker();
+                                $('#datepicker2').datepicker("option", "minDate", $("#datepicker1").val());
+                                $('#datepicker2').datepicker("option", "onClose", function ( selectedDate ) {
+                                    $("#datepicker1").datepicker( "option", "maxDate", selectedDate );
+                                });
+                            });
+                            </script>
+                            <script>
+                                $(function() {
+                                    $("#datepicker1, #datepicker2").datepicker({
+                                        dateFormat: 'yy.mm.dd'
+                                    });
+                                });
+                            </script>
+                            <p style="text-align: center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"></path>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"></path></svg>
+                                <input type="text" id="datepicker1" placeholder=" 시작 날짜" class="hasDatepicker"> ~
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar-week" viewBox="0 0 16 16">
+                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"></path>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"></path></svg>
+                                <input type="text" id="datepicker2" placeholder=" 종료 날짜" class="hasDatepicker">
+                            </p>
+                        </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn" style="color: white; background-color: #2db400">적용</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="row g-3 mt-5" style="text-align:center;">
+            <div class="border bg-light">
+              <input type="text" class="container border" placeholder="포함 단어" style="width:400px; height:35px;"></div>
+            <div class=" border bg-light">
+              <input type="text" class="container border" placeholder="제외 단어" style="width:400px; height:35px;"></div>
+            <div class=" border bg-light">
+              <input type="text" class="container border" placeholder="작성자" style="width:400px; height:35px;"></div>
+            <div class="search-btn border bg-light">
+                <a href="#" class="myButton" style="color: white; text-align: center">검색</a>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div class="p-3 border bg-light" style="height:50px; text-align:center;">
-  <input type="text" class="container-sm" placeholder="포함 단어" style="width:400px; height:35px;"></div>
-<div class="p-3 border bg-light" style=" height:50px; text-align:center;">
-  <input type="text" class="container-sm" placeholder="제외 단어" style="width:400px; height:35px;"></div>
-<div class="p-3 border bg-light" style=" height:50px; text-align:center;">
-  <input type="text" class="container-sm" placeholder="작성자" style="width:400px; height:35px;"></div>
-<a href="#" role="tab" class="txt">도움말</a>
 {% endblock %}
