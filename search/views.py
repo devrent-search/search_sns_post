@@ -1,15 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from fetch_blog import BlogData
+
+import json
 
 # Create your views here.
 
 def index(request):
     context = {
         'd': None,
-        
+
     }
     return render(request, 'search/index.html', context)
-
 
 def search(request):
     context = {
@@ -22,8 +24,15 @@ def search(request):
         'search_query' :" ", #검색어
         'article_data' :[], #블로그 게시물 검색결과
     }
-    
+
     return render(request, 'search/sample.html', context)
+
+
+if __name__ == '__main__':
+    blogData = BlogData("맛집",3)
+    a = blogData.get()
+    print(a['data'])
+
 
 """
 def index(request):
