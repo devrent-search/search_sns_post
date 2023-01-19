@@ -1,20 +1,41 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from fetch_blog import BlogData
+
+import json
 
 # Create your views here.
 
-<<<<<<< HEAD
-def index(request): #이것만....
-    return HttpResponse('인덱스페이지.')
-    #return render(request,'index.html')
+def index(request):
+    context = {
+        'd': None,
+
+    }
+    return render(request, 'search/index.html', context)
+
+def search(request):
+    context = {
+        'test': "12345",
+        'debug': True,
+        
+        'search_contain':" ", #포함단어
+        'search_exclude':" ", #제외 단어
+        'search_author' :" ", #작성자
+        'search_query' :" ", #검색어
+        'article_data' :[], #블로그 게시물 검색결과
+    }
+
+    return render(request, 'search/sample.html', context)
 
 
-def search(request): #이건 말고
-    return HttpResponse('서치페이지.')
+if __name__ == '__main__':
+
+    b=BlogData("맛집",3)
+    result = b.get()
+    print(result["data"]) 
 
 
-=======
-
+"""
 def index(request):
     # 여기다가 코드 입력하시면 됩니다.
     return render(request, 'search/index.html')
@@ -23,4 +44,4 @@ def index(request):
 def search(request):
     # 여기다가 코드 입력하시면 됩니다.
     return render(request, 'search/search.html')
->>>>>>> main
+"""
