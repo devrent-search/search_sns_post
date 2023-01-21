@@ -1,8 +1,9 @@
 html {
     scroll-behavior: smooth;
-  }
+}
 a {
-  text-decoration-line: none;}
+    text-decoration-line: none;
+}
 
 
 [type='radio'] {

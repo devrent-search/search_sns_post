@@ -16,14 +16,14 @@ span.top, span.top > input, .main-title {
 
 .horizon {
     height: 20px;
-    background-color: #28a745;
+    background-color: #2db400;
     width: -webkit-fill-available;
 }
 
 .main-title {
     font-size: 30px;
     font-weight: bolder;
-    color: #28a745;
+    color: #2db400;
     top: -14!important;
 }
 
