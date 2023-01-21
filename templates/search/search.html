@@ -6,20 +6,68 @@
 {% block content %}
 <div class="horizon"></div>
 <div class="topbar">
-    <span class="p-3 main-title">BLOGNAVI</span>
-    <span class="p-3 ta-center top">
+    <span class="main-title p-1">BLOGNAVI</span>
+    <span class="ta-center top p-1">
         <input type="text" class="container-lg border" placeholder="검색어">
     </span>
 
-    <span class="p-3 ta-center top">
+    <span class="ta-center top p-1">
         <input type="text" class="container-lg border" placeholder="포함 단어">
     </span>
-    <span class="p-3 ta-center top">
+    <span class="ta-center top p-1">
         <input type="text" class="container-lg border" placeholder="제외 단어">
     </span>
-    <span class="p-3 ta-center top">
+    <span class="ta-center top p-1">
         <input type="text" class="container-lg border" placeholder="작성자">
     </span>
 </div>
-<div class="horizon" style="height:5px;"></div>
+<!--<div class="horizon" style="height:5px;"></div>-->
+<div class="search-result">
+    총 {{ article_data|length }}개의 검색결과가 존재합니다.
+</div>
+<div class="result">
+    <div class="articles list-group">
+        {% for article in article_data %}
+            <a href="{{ article.link }}" class="list-group-item list-group-item-action">
+                <div class="d-flex justify-content-between">
+                    <h5 class="mb-1">{{ article.title|truncatechars:25 }}</h5>
+                    <small class="date" id="0">{{ article.postdate }}</small>
+                </div>
+                <p class="mb-1">
+                    {{ article.content|truncatechars:200 }}
+                </p>
+                <small class="author" id="0" href="{{ article.author_link }}">{{ article.author|truncatechars:15 }}</small>
+            </a>
+        {% endfor %}
+    </div>
+    <div class="params">
+        <div class="p-item card">
+            <div class="card-body">
+                <h6 class="card-title">포함 단어</h6>
+                <p class="card-text">
+                    {{ search_contain }}
+                </p>
+            </div>
+        </div>
+        <div class="p-item card">
+            <div class="card-body">
+                <h6 class="card-title">제외 단어</h6>
+                <p class="card-text">
+                    {{ search_exclude }}
+                </p>
+            </div>
+        </div>
+        <div class="p-item card">
+            <div class="card-body">
+                <h6 class="card-title">작성자</h6>
+                <p class="card-text">
+                    {{ search_author }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bottom">
+    <button class="btn btn-success w-100" onclick="window.location.href = '/'">메인으로 돌아가기</button>
+</div>
 {% endblock %}

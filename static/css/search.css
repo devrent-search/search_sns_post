@@ -3,7 +3,7 @@
 }
 
 span.top, span.top > input, .main-title {
-    width: 100px;
+    width: 130px;
     height: 30px;
     position: relative;
     top: -6;
@@ -11,11 +11,13 @@ span.top, span.top > input, .main-title {
 
 .topbar {
     height: 30px;
+    margin-bottom: 10px;
 }
 
 .horizon {
     height: 20px;
     background-color: #28a745;
+    width: -webkit-fill-available;
 }
 
 .main-title {
@@ -23,4 +25,33 @@ span.top, span.top > input, .main-title {
     font-weight: bolder;
     color: #28a745;
     top: -14!important;
+}
+
+.result {
+    display: flex;
+    margin: 10px;
+}
+
+.articles, .params {
+    margin: 5px;
+    max-width: 600px;
+}
+
+.p-item, .list-group-item {
+    margin-bottom: 10px;
+}
+
+.list-group-item {
+    border-top-width: 1px!important;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
