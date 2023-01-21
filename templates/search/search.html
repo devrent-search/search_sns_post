@@ -3,24 +3,20 @@
 {% endblock %} {% block content %}
 <div class="horizon"></div>
 <div class="topbar">
-    <span class="main-title p-1">BLOGNAVI</span>
+    <!-- TODO: search.html 에서 맨 위 블로그나비 로고가 겹침
+        Sol1: nav.html 을 유지하고 search.html을 호환 가능하게 수정
+        Sol2: nav.html을 삭제하고 index.html에 따로 코드 추가
+    -->
+    <span class="main-title p-1">BLOGNAVI</span> 
     <span class="ta-center top p-1">
         <input type="text" class="container-lg border" placeholder="검색어" />
     </span>
 
     <span class="ta-center top p-1">
-        <input
-            type="text"
-            class="container-lg border"
-            placeholder="포함 단어"
-        />
+        <input type="text" class="container-lg border" placeholder="포함 단어" />
     </span>
     <span class="ta-center top p-1">
-        <input
-            type="text"
-            class="container-lg border"
-            placeholder="제외 단어"
-        />
+        <input type="text" class="container-lg border" placeholder="제외 단어" />
     </span>
     <span class="ta-center top p-1">
         <input type="text" class="container-lg border" placeholder="작성자" />
@@ -28,23 +24,21 @@
 </div>
 <!--<div class="horizon" style="height:5px;"></div>-->
 <div class="search-result">
-    총 {{ article_data|length }}개의 검색결과가 존재합니다.
+    <span><b>"{{ search_query }}"</b>에 대한 검색결과 입니다.</span>
+    <span>총 <b>{{ article_data|length }}</b>개의 검색결과가 존재합니다.</span>
 </div>
 <div class="result">
     <div class="articles list-group">
         {% for article in article_data %}
-        <a
-            href="{{ article.link }}"
-            class="list-group-item list-group-item-action"
-        >
+        <a href="{{ article.link }}" class="list-group-item list-group-item-action">
             <div class="d-flex justify-content-between">
-                <h5 class="mb-1">{{ article.title|truncatechars:25 }}</h5>
+                <h5 class="mb-1">{{ article.title|truncatechars:35 }}</h5>
                 <small class="date" id="0">{{ article.postdate }}</small>
             </div>
             <p class="mb-1">{{ article.content|truncatechars:200 }}</p>
-            <small class="author" id="0" href="{{ article.author_link }}"
-                >{{ article.author|truncatechars:15 }}</small
-            >
+            <small class="author" id="0" href="{{ article.author_link }}">
+                {{ article.author|truncatechars:15 }}
+            </small>
         </a>
         {% endfor %}
     </div>

@@ -34,7 +34,11 @@ span.top, span.top > input, .main-title {
 
 .articles, .params {
     margin: 5px;
-    max-width: 600px;
+}
+
+.params {
+    margin-left: 30px;
+    margin-right: 20px;
 }
 
 .p-item, .list-group-item {
@@ -47,6 +51,10 @@ span.top, span.top > input, .main-title {
     border-top-right-radius: inherit;
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
+}
+
+.card-body {
+    width: 110px;
 }
 
 body {

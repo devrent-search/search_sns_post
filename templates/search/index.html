@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="/" class="d-flex flex-column align-items-center">
-  <input type="text" class="form-control w-75" placeholder="검색어" style="max-width: 700px;">
+<form action="/search/" class="d-flex flex-column align-items-center" method="post">
+  {% csrf_token %}
+  <input type="text" name="search_query" class="form-control w-75" placeholder="검색어" style="max-width: 700px;">
+  <!--
   <div class="btn-group d-flex align-items-center pt-3" data-toggle="buttons">
     <div class="p-1">
       <input id="DateAll" class="radio-custom input-group-field" name="radio-group" type="radio">
@@ -69,6 +71,7 @@
       </div>
     </div>
   </div>
+  -->
   <div class="card w-100 mt-4" style="max-width: 700px;">
     <div class="card-body">
       <div class="mb-3">

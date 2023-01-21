@@ -13,7 +13,7 @@ def search(request):
         "search_contain": None,
         "search_exclude": None,
         "search_author": None,
-        "search_query": "맛집",
+        "search_query": request.POST.get('search_query'),
         "article_data": [
             {
                 "title": "노티드 연남 방문일지",
