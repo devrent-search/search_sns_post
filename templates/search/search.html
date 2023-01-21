@@ -5,38 +5,11 @@
 {% endblock %}
 {% block content %}
 <div class="horizon"></div>
-{% comment %} 첫번째 버전 맨 위에 있는 경우 {% endcomment %}
-<div class='w-100 d-flex justify-content-start'>
-    <div class="topbar">
-        <!-- TODO: search.html 에서 맨 위 블로그나비 로고가 겹침
-            Sol1: nav.html 을 유지하고 search.html을 호환 가능하게 수정
-            Sol2: nav.html을 삭제하고 index.html에 따로 코드 추가
-        -->
-        <span class="main-title p-1">BLOGNAVI</span> 
-        <span class="ta-center top p-1">
-            <input type="text" class="container-lg border" placeholder="검색어" />
-        </span>
-    
-        <span class="ta-center top p-1">
-            <input type="text" class="container-lg border" placeholder="포함 단어" />
-        </span>
-        <span class="ta-center top p-1">
-            <input type="text" class="container-lg border" placeholder="제외 단어" />
-        </span>
-        <span class="ta-center top p-1">
-            <input type="text" class="container-lg border" placeholder="작성자" />
-        </span>
-    </div>
-</div>
 <!--<div class="horizon" style="height:5px;"></div>-->
-<div class='container-fluid w-100 mt-5'>
+<div class='container-fluid w-100'>
     {% comment %} 두 번째 버전 컨테이너 안에 있는 경우 - 일단 저는 이 경우가 좀 더 좋아보입니다. {% endcomment %}
     <div class='d-flex justify-content-start'>
         <div class="topbar">
-            <!-- TODO: search.html 에서 맨 위 블로그나비 로고가 겹침
-                Sol1: nav.html 을 유지하고 search.html을 호환 가능하게 수정
-                Sol2: nav.html을 삭제하고 index.html에 따로 코드 추가
-            -->
             <span class="main-title p-1">BLOGNAVI</span> 
             <span class="ta-center top p-1">
                 <input type="text" class="container-lg border" placeholder="검색어" />
