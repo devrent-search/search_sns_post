@@ -1,0 +1,65 @@
+.ta-center {
+    text-align: center;
+}
+
+span.top, span.top > input, .main-title {
+    width: 130px;
+    height: 30px;
+    position: relative;
+    top: -6;
+}
+
+.topbar {
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.horizon {
+    height: 20px;
+    background-color: #2db400;
+    width: -webkit-fill-available;
+}
+
+.main-title {
+    font-size: 30px;
+    font-weight: bolder;
+    color: #2db400;
+    top: -14!important;
+}
+
+.result {
+    display: flex;
+    margin: 10px;
+}
+
+.articles, .params {
+    margin: 5px;
+}
+
+.params {
+    margin-left: 30px;
+    margin-right: 20px;
+}
+
+.p-item, .list-group-item {
+    margin-bottom: 10px;
+}
+
+.list-group-item {
+    border-top-width: 1px!important;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+}
+
+.card-body {
+    width: 110px;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
