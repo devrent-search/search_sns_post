@@ -19,5 +19,10 @@ import search.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+<<<<<<< HEAD
     path('', include('search.urls')),
+=======
+    path('', search.views.index),
+    path('search/', include('search.urls'))
+>>>>>>> 053608de3ecc0bf82a6368da89b3c30d1dddd52f
 ]
