@@ -14,14 +14,27 @@ def index(request):
     return render(request, 'search/index.html', context)
 
 def search(request):
+
+    #blogData = BlogData(request.POST.get('search_query'),3)
+    #a = blogData.get()
+    #print(a['data'])
+    #b=blogData.get_item(0)
+    #print(b['title'])
+
+    #for문 만들기 .......... 
+
+
+    #list_A=[]
+
     context = {
         "search_contain": None,
         "search_exclude": None,
         "search_author": None,
         "search_query": request.POST.get('search_query'),
         "article_data": [
+            
             {
-                "title": "노티드 연남 방문일지",
+                "title": "노티드 연남 방문일지", 
                 "author": "주현준",
                 "content": "노티드 연남에 가봤습니다. 우유 도넛이 아주 맛있습니다.",
                 "link": "https://google.com",
@@ -38,6 +51,11 @@ def search(request):
             },
         ]
     }
+
+    return render(print,"search_query")
+
+
+"""
     if request.method == 'GET':
         return render(request, 'search/search.html', context=context)
 
@@ -64,7 +82,7 @@ if __name__ == '__main__':
     blogData = BlogData("맛집",3)
     a = blogData.get()
     print(a['data'])
-
+"""
 
 """
 def index(request):
