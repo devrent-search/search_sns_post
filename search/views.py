@@ -1,40 +1,48 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .fetch_blog import BlogData
 
-import json
-
+from . import fetch_blog
 # Create your views here.
 
-def index(request):
-    context = {
-        'd': None,
 
-    }
-    return render(request, 'search/index.html', context)
+def index(request):
+    return render(request, 'search/index.html')
+
 
 def search(request):
+    search_contain = request.POST.get('search_contain')
+    search_exclude = request.POST.get('search_exclude')
+    search_author = request.POST.get('search_author')
+    search_query = request.POST.get('search_query')
+    
+    # 위 4개의 변수들을 이용하여 결과물을 "article_data"에 넣으시면 됩니다.
+    # 하실 일의 대부분은 예외처리와 받아온 데이터 가공입니다.
+    
+    if (not search_query):
+        pass  # 검색어가 존재하지 않을 경우 예외처리
 
-    #blogData = BlogData(request.POST.get('search_query'),3)
-    #a = blogData.get()
-    #print(a['data'])
-    #b=blogData.get_item(0)
-    #print(b['title'])
-
-    #for문 만들기 .......... 
-
-
-    #list_A=[]
-
+    blogdata = fetch_blog.BlogData(search_query, 100)
+    if (blogdata.get()['status_code'] != 0):
+        print("Error: " + blogdata.get()['status_message'])
+        #  정상적으로 데이터를 받아오지 못했을 경우 예외처리
+    else:
+        articles = blogdata.get()['data']['items']
+        processed_articles = []
+        for article in articles:
+            processed_articles.append("")  # 저희에게 필요한 형식에 맞게 데이터를 가공한 후 processed_articles에 append
+            """
+            데이터를 가공한다는 것은
+            1. 포함/제외 단어, 작성자 필터에 맞는 article만 고르는 작업
+            2. 템플릿에 직접적으로 들어가기 때문에 문자열을 다듬는 과정 (예를 들어 20220528 -> 2022-05-28 이런 식으로 변환)
+            등의 작업을 말합니다.
+            """
     context = {
-        "search_contain": None,
-        "search_exclude": None,
-        "search_author": None,
-        "search_query": request.POST.get('search_query'),
-        "article_data": [
-            
+        "search_contain": search_contain,
+        "search_exclude": search_exclude,
+        "search_author": search_author,
+        "search_query": search_query,
+        "article_data": [  # 여기에 processed_articles가 들어가면 됩니다. 우선 형식을 찾는 데 도움을 드리기 위해 그대로 놔두겠습니다.
             {
-                "title": "노티드 연남 방문일지", 
+                "title": "노티드 연남 방문일지",
                 "author": "주현준",
                 "content": "노티드 연남에 가봤습니다. 우유 도넛이 아주 맛있습니다.",
                 "link": "https://google.com",
@@ -51,46 +59,4 @@ def search(request):
             },
         ]
     }
-
-    return render(print,"search_query")
-
-
-"""
-    if request.method == 'GET':
-        return render(request, 'search/search.html', context=context)
-
-    elif request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        try:
-            user = User.objects.get(username=username, password=password)
-            responce = redirect('pages:index')
-            
-            responce.set_cookie('username', user.username)
-            responce.set_cookie('password', user.password)
-            responce.set_cookie('is_login', True)
-
-            return responce
-        except User.DoesNotExist:  # 회원 정보가 없는 경우
-            context['is_valid'] = False
-            return render(request, 'users/login.html', context)
-    
-
-
-if __name__ == '__main__':
-    blogData = BlogData("맛집",3)
-    a = blogData.get()
-    print(a['data'])
-"""
-
-"""
-def index(request):
-    # 여기다가 코드 입력하시면 됩니다.
-    return render(request, 'search/index.html')
-
-
-def search(request):
-    # 여기다가 코드 입력하시면 됩니다.
-    return render(request, 'search/search.html')
-"""
+    return render(request, 'search/search.html', context=context)
