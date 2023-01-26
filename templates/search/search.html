@@ -8,24 +8,28 @@
 <!--<div class="horizon" style="height:5px;"></div>-->
 <div class='container-fluid w-100'>
     {% comment %} 두 번째 버전 컨테이너 안에 있는 경우 - 일단 저는 이 경우가 좀 더 좋아보입니다. {% endcomment %}
-    <div class='d-flex justify-content-start'>
+    <form class='d-flex justify-content-start' action="{% url 'search' %}" method="post">
+        {% csrf_token %}
         <div class="topbar">
             <span class="main-title p-1">BLOGNAVI</span> 
             <span class="ta-center top p-1">
-                <input type="text" class="container-lg border" placeholder="검색어" />
+                <input type="text" name="search_query" class="container-lg border" placeholder="검색어" />
             </span>
         
             <span class="ta-center top p-1">
-                <input type="text" class="container-lg border" placeholder="포함 단어" />
+                <input type="text" name="search_contain" class="container-lg border" placeholder="포함 단어" />
             </span>
             <span class="ta-center top p-1">
-                <input type="text" class="container-lg border" placeholder="제외 단어" />
+                <input type="text" name="search_exclude" class="container-lg border" placeholder="제외 단어" />
             </span>
             <span class="ta-center top p-1">
-                <input type="text" class="container-lg border" placeholder="작성자" />
+                <input type="text" name="search_author" class="container-lg border" placeholder="작성자" />
+            </span>
+            <span class="ta-center top p-1">
+                <input type="submit" value="검색" class="container-lg border" style="background-color: #2db400; color: white; width: 70px; border-radius: 12px;">
             </span>
         </div>
-    </div>
+    </form>
     <div class='row'>
         <div class='col-9'>
             <div class="search-result">
@@ -35,14 +39,14 @@
             <div class="result">
                 <div class="articles list-group">
                     {% for article in article_data %}
-                    <a href="{{ article.link }}" class="list-group-item list-group-item-action">
+                    <a href="{{ article.link }}" target="_blank" class="list-group-item list-group-item-action">
                         <div class="d-flex justify-content-between">
                             <h5 class="mb-1">{{ article.title|truncatechars:35 }}</h5>
                             <small class="date" id="0">{{ article.postdate }}</small>
                         </div>
                         <p class="mb-1">{{ article.content|truncatechars:200 }}</p>
-                        <small class="author" id="0" href="{{ article.author_link }}">
-                            {{ article.author|truncatechars:15 }}
+                        <small class="author" id="0" target="_blank" href="{{ article.author_link }}">
+                            블로그: {{ article.author|truncatechars:45 }}
                         </small>
                     </a>
                     {% endfor %}

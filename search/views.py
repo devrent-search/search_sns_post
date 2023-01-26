@@ -52,7 +52,7 @@ class ColumnData:
 class BlogCroller(BlogData):
     def iter_item(self):
         if self.response['data']:
-            for element in self.response['data']['items']:
+            for element in self.response['data']:
 
                 column = ColumnData(
                     title = element['title'],
