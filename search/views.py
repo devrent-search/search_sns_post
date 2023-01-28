@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .fetch_blog import BlogData
-
+from django.contrib import messages
 
 #BlogData로부터 나온 데이터를 딕셔너리화하기 위한 클래스
-class ColumnData:
+class ResultData:
     def __init__(self, title=None, author=None, content=None, link=None, author_link=None, postdate=None):
         def delete_b_tag(string):
             return string.replace('<b>', '').replace('</b>', '')
@@ -17,7 +17,7 @@ class ColumnData:
         self.postdate = postdate[:4] + "-" + postdate[4:6] + "-" + postdate[6:]
 
 
-    def is_valid(self, search_contain: str = "", search_exclude: str = "", search_author: str = "" ):
+    def is_valid(self, search_contain: str = "", search_exclude: str = "", search_author: str = ""):
         if search_contain: #search contain이 있을때 검사
             if search_contain not in self.title \
                 and search_contain not in self.content: # search contain이 하나도 포함되지 않으면
@@ -38,7 +38,7 @@ class BlogCroller(BlogData):
     def iter_item(self):
         if self.response['data']:
             for element in self.response['data']:
-                column = ColumnData(
+                result = ResultData(
                     title = element['title'],
                     author = element['bloggername'],
                     content = element['description'],
@@ -46,8 +46,8 @@ class BlogCroller(BlogData):
                     author_link = element['bloggerlink'],
                     postdate = element['postdate']
                 )
-                if column.is_valid(self.search_contain,self.search_exclude,self.search_author):
-                    yield column.__dict__ #key 와 value로 만들어주는.. 아 ! 
+                if result.is_valid(self.search_contain,self.search_exclude,self.search_author):
+                    yield result.__dict__ #key 와 value로 만들어주는.. 아 ! 
 
         
     def __init__(self, query: str, limit: int, sort: str = "s", search_contain: str = "",search_exclude: str = "",search_author: str = "" ) -> None:
@@ -61,15 +61,16 @@ class BlogCroller(BlogData):
 
 def index(request):
     return render(request, 'search/index.html')
+
 def search(request):
     search_contain = request.POST.get('search_contain')
     search_exclude = request.POST.get('search_exclude')
     search_author = request.POST.get('search_author')
     search_query = request.POST.get('search_query')
 
-
+    # 검색어가 없을 경우
     if not search_query:
-        pass  # 검색어가 존재하지 않을 경우 예외처리
+        pass
 
     context = {
             "search_contain": search_contain,
@@ -79,12 +80,14 @@ def search(request):
             "article_data": []
         }
 
-
     if request.method == 'POST':
-
         try:
-            blog_croller = BlogCroller(request.POST.get('search_query'), 100 , 
-            search_contain=search_contain,search_exclude=search_exclude,search_author=search_author)  #인스턴스 만들기
+            blog_croller = BlogCroller(
+                request.POST.get('search_query'), 100,
+                search_contain=search_contain,
+                search_exclude=search_exclude, 
+                search_author=search_author
+                )  #인스턴스 만들기
         except: # request.POST에 데이터 없는 경우
             return render(request, 'search/search.html', context=context)
         
