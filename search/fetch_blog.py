@@ -34,7 +34,7 @@ class BlogData:
             limit (int): 검색할 결과 개수 (1 ~ 100)
             sort (str, optional): 정렬 방법 (s: 정확도, d: 날짜 내림차순) (default: s)
         """
-        self.response: dict = {"data": None}
+        self.response: dict = {"data": []}
         self.query = query
         self.limit = limit
         if (limit < 1 or limit > 100):
@@ -46,10 +46,14 @@ class BlogData:
             self.response['status_code'] = 3
             self.response['status_msg'] = "Invalid sort parameter"
             return
-        self._fetch()
 
-    def _fetch(self) -> None:
+        for i in range(1, 402, 100):
+            self._fetch(i)
+
+    def _fetch(self, _start: int) -> None:
         _query = urllib.parse.quote(self.query)
+        if (not _query):
+            return
         _limit = self.limit
         _sort = "sim" if (self.sort == "s") else "date"
         _headers = {
@@ -58,16 +62,17 @@ class BlogData:
         }
         _req = urllib.request.Request(
             url="https://openapi.naver.com/v1/search/blog.json?"
-                f"query={_query}&display={_limit}&sort={_sort}",
+                f"query={_query}&display={_limit}&start={_start}&sort={_sort}",
             headers=_headers,
         )
         try:
             with urllib.request.urlopen(_req) as response:
                 self.response['status_code'] = 0
                 self.response['status_msg'] = "Success"
-                self.response['data'] = json.loads(
-                    unicodedata.normalize("NFKC", response.read().decode("utf-8"))
-                )
+                self.response['data'] += json.loads(
+                    unicodedata.normalize(
+                        "NFKC", response.read().decode("utf-8"))
+                )['items']
                 return
         except urllib.error.URLError as err:
             self.response['status_code'] = 2

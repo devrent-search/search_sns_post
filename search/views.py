@@ -1,59 +1,96 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from fetch_blog import BlogData
+from .fetch_blog import BlogData
 
-import json
+
+#BlogData로부터 나온 데이터를 딕셔너리화하기 위한 클래스
+class ColumnData:
+    def __init__(self, title=None, author=None, content=None, link=None, author_link=None, postdate=None):
+        def delete_b_tag(string):
+            return string.replace('<b>', '').replace('</b>', '')
+            
+        self.title = delete_b_tag(title)
+        self.author = delete_b_tag(author)
+        self.content = delete_b_tag(content)
+        self.link = delete_b_tag(link)
+        self.author_link = delete_b_tag(author_link)
+        self.postdate = postdate[:4] + "-" + postdate[4:6] + "-" + postdate[6:]
+
+
+    def is_valid(self, search_contain: str = "",search_exclude: str = "",search_author: str = "" ):
+        if search_contain: #search contain이 있을때 검사
+            if search_contain not in self.title \
+                and search_contain not in self.content: # search contain이 하나도 포함되지 않으면
+                return False
+        if search_exclude:
+            if search_exclude in self.title \
+                or search_exclude in self.content: # search exclude이 하나라도 포함되면  
+                return False
+        if search_author:
+            if search_author != self.author: # 작성자가 아니라면
+                return False
+        return True
+
+
+
+#필터링 가능하도록 오버라이드한 클래스
+class BlogCroller(BlogData):
+    def iter_item(self):
+        if self.response['data']:
+            for element in self.response['data']:
+                column = ColumnData(
+                    title = element['title'],
+                    author = element['bloggername'],
+                    content = element['description'],
+                    link = element['link'],
+                    author_link = element['bloggerlink'],
+                    postdate = element['postdate']
+                )
+                if column.is_valid(self.search_contain,self.search_exclude,self.search_author):
+                    yield column.__dict__ #key 와 value로 만들어주는.. 아 ! 
+
+        
+    def __init__(self, query: str, limit: int, sort: str = "s", search_contain: str = "",search_exclude: str = "",search_author: str = "" ) -> None:
+        super().__init__(query, limit, sort)
+        self.search_contain = search_contain
+        self.search_exclude = search_exclude
+        self.search_author = search_author
+                
 
 # Create your views here.
 
 def index(request):
-    context = {
-        'd': None,
-
-    }
-    return render(request, 'search/index.html', context)
-
-def search(request):
-    context = {
-        "search_contain": None,
-        "search_exclude": None,
-        "search_author": None,
-        "search_query": request.POST.get('search_query'),
-        "article_data": [
-            {
-                "title": "노티드 연남 방문일지",
-                "author": "주현준",
-                "content": "노티드 연남에 가봤습니다. 우유 도넛이 아주 맛있습니다.",
-                "link": "https://google.com",
-                "author_link": "https://naver.com",
-                "postdate": "2023-01-14",
-            },
-            {
-                "title": "가로수길에 있는 모든 파스타집을 가본 제가 직접 엄선한 맛집들을 소개해드리겠습니다. 이 뒤부터는 truncatechars 테스트를 위한 내용 늘리기에 불과하니 읽으실 필요가 없습니다. 아직도 이걸 읽고 계신 당신은 호기심이 가득한 사람입니다.",
-                "author": "홍길동",
-                "content": "가로수길에 있는 모든 파스타집을 가본 제가 직접 엄선한 맛집들을 소개해드리겠습니다. 이 뒤부터는 truncatechars 테스트를 위한 내용 늘리기에 불과하니 읽으실 필요가 없습니다. 아직도 이걸 읽고 계신 당신은 호기심이 가득한 사람입니다. 가로수길에 있는 모든 파스타집을 가본 제가 직접 엄선한 맛집들을 소개해드리겠습니다.가로수길에 있는 모든 파스타집을 가본 제가 직접 엄선한 맛집들을 소개해드리겠습니다.",
-                "link": "https://google.com/maps",
-                "author_link": "https://kakaocorp.com",
-                "postdate": "2023-01-21",
-            },
-        ]
-    }
-    return render(request, 'search/search.html', context=context)
-
-
-if __name__ == '__main__':
-    blogData = BlogData("맛집",3)
-    a = blogData.get()
-    print(a['data'])
-
-
-"""
-def index(request):
-    # 여기다가 코드 입력하시면 됩니다.
     return render(request, 'search/index.html')
-
-
 def search(request):
-    # 여기다가 코드 입력하시면 됩니다.
-    return render(request, 'search/search.html')
-"""
+    search_contain = request.POST.get('search_contain')
+    search_exclude = request.POST.get('search_exclude')
+    search_author = request.POST.get('search_author')
+    search_query = request.POST.get('search_query')
+
+
+    if not search_query:
+        pass  # 검색어가 존재하지 않을 경우 예외처리
+
+    context = {
+            "search_contain": search_contain,
+            "search_exclude": search_exclude,
+            "search_author": search_author,
+            "search_query": search_query,
+            "article_data": []
+        }
+
+
+    if request.method == 'POST':
+
+        try:
+            blog_croller = BlogCroller(request.POST.get('search_query'), 100 , 
+            search_contain=search_contain,search_exclude=search_exclude,search_author=search_author)  #인스턴스 만들기
+        except: # request.POST에 데이터 없는 경우
+            return render(request, 'search/search.html', context=context)
+        
+        for each_item in blog_croller.iter_item():
+            context['article_data'].append(each_item)
+        return render(request, 'search/search.html', context=context)
+    
+    elif request.method == 'GET':
+        return render(request, 'search/search.html', context=context)
