@@ -17,7 +17,7 @@ class ColumnData:
         self.postdate = postdate[:4] + "-" + postdate[4:6] + "-" + postdate[6:]
 
 
-    def is_valid(self, search_contain: str = "",search_exclude: str = "",search_author: str = "" ):
+    def is_valid(self, search_contain: str = "", search_exclude: str = "", search_author: str = "" ):
         if search_contain: #search contain이 있을때 검사
             if search_contain not in self.title \
                 and search_contain not in self.content: # search contain이 하나도 포함되지 않으면
