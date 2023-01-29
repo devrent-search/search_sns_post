@@ -31,8 +31,6 @@ class ResultData:
                 return False
         return True
 
-
-
 #필터링 가능하도록 오버라이드한 클래스
 class BlogCroller(BlogData):
     def iter_item(self):
@@ -47,7 +45,8 @@ class BlogCroller(BlogData):
                     postdate = element['postdate']
                 )
                 if result.is_valid(self.search_contain,self.search_exclude,self.search_author):
-                    yield result.__dict__ #key 와 value로 만들어주는.. 아 ! 
+                    # 필터조건 충족시
+                    yield result.__dict__ 
 
         
     def __init__(self, query: str, limit: int, sort: str = "s", search_contain: str = "",search_exclude: str = "",search_author: str = "" ) -> None:
@@ -62,38 +61,47 @@ class BlogCroller(BlogData):
 def index(request):
     return render(request, 'search/index.html')
 
+from django.views.decorators.http import require_POST
+
+contain_key = 'search_contain'
+exclude_key = 'search_exclude'
+author_key = 'search_author'
+query_key = 'search_query'
+article_data_key = 'article_data'
+
+@require_POST
 def search(request):
-    search_contain = request.POST.get('search_contain')
-    search_exclude = request.POST.get('search_exclude')
-    search_author = request.POST.get('search_author')
-    search_query = request.POST.get('search_query')
+    search_contain = request.POST.get(contain_key)
+    search_exclude = request.POST.get(exclude_key)
+    search_author = request.POST.get(author_key)
+    search_query = request.POST.get(query_key)
 
     # 검색어가 없을 경우
     if not search_query:
         pass
 
     context = {
-            "search_contain": search_contain,
-            "search_exclude": search_exclude,
-            "search_author": search_author,
-            "search_query": search_query,
-            "article_data": []
+            contain_key: search_contain,
+            exclude_key: search_exclude,
+            author_key: search_author,
+            query_key: search_query,
+            article_data_key: []
         }
 
-    if request.method == 'POST':
-        try:
-            blog_croller = BlogCroller(
-                request.POST.get('search_query'), 100,
-                search_contain=search_contain,
-                search_exclude=search_exclude, 
-                search_author=search_author
-                )  #인스턴스 만들기
-        except: # request.POST에 데이터 없는 경우
-            return render(request, 'search/search.html', context=context)
-        
-        for each_item in blog_croller.iter_item():
-            context['article_data'].append(each_item)
+    try:
+        blog_croller = BlogCroller(
+            query_key, 100,
+            search_contain=search_contain,
+            search_exclude=search_exclude, 
+            search_author=search_author
+            )  # 크롤링
+    except: 
+        # request.POST에 데이터 없는 경우
         return render(request, 'search/search.html', context=context)
     
-    elif request.method == 'GET':
-        return render(request, 'search/search.html', context=context)
+    for each_item in blog_croller.iter_item():
+        #크롤링 API로부터 얻어온 데이터 추가
+        context[article_data_key].append(each_item)
+
+    return render(request, 'search/search.html', context=context)
+    
