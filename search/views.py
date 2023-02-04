@@ -90,7 +90,7 @@ def search(request):
 
     try:
         blog_croller = BlogCroller(
-            query_key, 100,
+            search_query, 100,
             search_contain=search_contain,
             search_exclude=search_exclude, 
             search_author=search_author
